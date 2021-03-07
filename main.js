@@ -92,6 +92,7 @@ function createMap(){
 //getData loads geoJSON
 
 function getData(map){
+    $('body').addClass('waiting');
     
     // load the cancer tract data 
     var state = $.getJSON("resources/spatialdata/States.geojson"),
@@ -168,6 +169,7 @@ function getData(map){
         
         
         statesLayer.addTo(map);
+        $('body').removeClass('waiting');
 
         
 });
@@ -207,6 +209,7 @@ $(document.getElementById('expandHUC')).click(function(){
      
 
 $(document.getElementById('showHuc10')).click(function(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -286,7 +289,8 @@ function hucFiltering(id, sel, state){
             HucSort.setStyle(style);
             this.closePopup();
         };
-    
+        selectHucLayer.addTo(map);
+        $('body').removeClass('waiting');
 });
     
     
@@ -301,6 +305,7 @@ $(document.getElementById('showFine')).click(function(){
 });
 
 function fineDetails(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -394,8 +399,11 @@ function fineDetails(){
                 style: style,
                 onEachFeature: onEachFeature
             }).addTo(selectHucLayer);
+            
+            $('body').removeClass('waiting');
 
             HucSort.on('click', function(e) {
+                 $('body').addClass('waiting');
 
                 var selection = [],
                     selectedNode = e.sourceTarget.feature;
@@ -427,6 +435,8 @@ function fineDetails(){
                     style: styleW,
                     onEachFeature: onEachFeature
                 }).addTo(extrasLayer); 
+                
+                $('body').removeClass('waiting');
 
             });
 
@@ -485,6 +495,7 @@ function fineDetails(){
 
 
 $(document.getElementById('showHuc02')).click(function(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -500,6 +511,7 @@ $(document.getElementById('showHuc02')).click(function(){
     hucFiltering(id,sel,state);
 });
 $(document.getElementById('showHuc04')).click(function(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -515,6 +527,7 @@ $(document.getElementById('showHuc04')).click(function(){
     hucFiltering(id,sel,state);
 });
 $(document.getElementById('showHuc06')).click(function(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -530,6 +543,7 @@ $(document.getElementById('showHuc06')).click(function(){
     hucFiltering(id,sel,state);
 });
 $(document.getElementById('showHuc08')).click(function(){
+    $('body').addClass('waiting');
     HucSort={};
     selectHucLayer.clearLayers();
     
