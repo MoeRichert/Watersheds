@@ -46,13 +46,12 @@ var Huc02,
 
 //Layer options located in key
 var hucLayer = L.layerGroup(),
+    txLayers = L.layerGroup(),
     selectHucLayer = L.layerGroup(),
     statesLayer = L.layerGroup(),
     extrasLayer = L.layerGroup();
 
-//style functions
 
-//break Arrays    
 
 //createMap builds map, returns variable globalMap
 function createMap(){
@@ -327,7 +326,70 @@ function fineDetails(){
     //indicate what huc size is selected by button color  
     document.getElementById(id).className = "btn btn-info btn-sm";
     
-    Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
+    if (state = "TX" ) {
+        Huc0512 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/05.geojson');
+        Huc1212 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/12.geojson');
+        Huc1312 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/13.geojson');
+        
+        $.when(Huc0512, Huc1212, Huc1312).then(function (response1, response2, response3) {
+            // create layer and add to the layer group
+            HucSort1 = L.geoJson(response1, {
+                
+            }).addTo(txLayers);
+            
+            HucSort2 = L.geoJson(response2, {
+                
+            }).addTo(txLayers);
+            
+            HucSort3 = L.geoJson(response3, {
+                
+            }).addTo(txLayers);
+            
+            HucSort1.on('click', function(e) {
+                downstreamtx(e)
+
+            });
+            
+        function downstreamtx(e){
+            var selection = [],
+                    selectedNode = e.sourceTarget.feature;
+                selection.push(selectedNode);
+                console.log(selectedNode.properties.tohuc);
+
+                function getHucIndex(target, toHuc){
+                    for(let i = 0; i < target.getLayers().length; i++){
+                        if (toHuc == target.getLayers()[i].feature.properties.huc){
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+
+                //Selection = getHucIndex(HucSort, selectedNode.properties.tohuc);
+                //console.log(HucSort[2].feature.properties.huc);
+
+                function downstream(target, selectedNode){
+                    nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
+                    while(nextHuc != -1) {
+                        selection.push(target.getLayers()[nextHuc].feature);
+                        nextHuc = getHucIndex(target, target.getLayers()[nextHuc].feature.properties.tohuc);
+                    }
+                }
+
+                downstream(HucSort, selectedNode);
+                Selection = L.geoJson(selection, {
+                    style: styleW,
+                    onEachFeature: onEachFeature
+                }).addTo(extrasLayer); 
+        }
+
+            
+            
+        });
+        
+    } else {
+        
+        Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
 
 
         $.when(Huc).then(function (response1) {
@@ -422,6 +484,7 @@ function fineDetails(){
         };
     };    
 });
+    }
     selectHucLayer.addTo(map);
     extrasLayer.addTo(map);
 }
