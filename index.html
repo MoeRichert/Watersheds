@@ -36,6 +36,10 @@
                     <img src="img/mrplight.svg" alt="Moe Richert Cartography" id="logoimg" class="navbar-brand">
                 </div>
                 <ul class="nav nav-tabs navbar-right">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-lat='21.03' data-lng='105.85'>
+                      Location 1
+                    </button>
                     <a href="moerichert.github.io" data-toggle="tab"><i class="fa fa-home" style="font-size:36px"></i></a>
                     <a id="abtbtn" data-toggle="tab"><i class="fa fa-question-circle-o" style="font-size:36px; cursor: pointer;"></i></a>
                 </ul>
@@ -63,31 +67,31 @@
                     <select name="statesel" id=stateSel>
                         <option value="">Select Your State</option>
                         <option value="AL">Alabama</option>
-                        <option value="AK">Alaska</option>
+                        <!--<option value="AK">Alaska</option>
                         <option value="AZ">Arizona</option>
                         <option value="AR">Arkansas</option>
                         <option value="CA">California</option>
                         <option value="CO">Colorado</option>
                         <option value="CT">Connecticut</option>
                         <option value="DE">Delaware</option>
-                        <option value="DC">District Of Columbia</option>
+                        <option value="DC">District Of Columbia</option>-->
                         <option value="FL">Florida</option>
                         <option value="GA">Georgia</option>
-                        <option value="HI">Hawaii</option>
+                        <!--<option value="HI">Hawaii</option>
                         <option value="ID">Idaho</option>
                         <option value="IL">Illinois</option>
                         <option value="IN">Indiana</option>
                         <option value="IA">Iowa</option>
                         <option value="KS">Kansas</option>
-                        <option value="KY">Kentucky</option>
+                        <option value="KY">Kentucky</option>-->
                         <option value="LA">Louisiana</option>
-                        <option value="ME">Maine</option>
+                        <!--<option value="ME">Maine</option>
                         <option value="MD">Maryland</option>
                         <option value="MA">Massachusetts</option>
                         <option value="MI">Michigan</option>
-                        <option value="MN">Minnesota</option>
+                        <option value="MN">Minnesota</option>-->
                         <option value="MS">Mississippi</option>
-                        <option value="MO">Missouri</option>
+                        <!--<option value="MO">Missouri</option>
                         <option value="MT">Montana</option>
                         <option value="NE">Nebraska</option>
                         <option value="NV">Nevada</option>
@@ -104,44 +108,124 @@
                         <option value="RI">Rhode Island</option>
                         <option value="SC">South Carolina</option>
                         <option value="SD">South Dakota</option>
-                        <option value="TN">Tennessee</option>
+                        <option value="TN">Tennessee</option>-->
                         <option value="TX">Texas</option>
-                        <option value="UT">Utah</option>
+                        <!--<option value="UT">Utah</option>
                         <option value="VT">Vermont</option>
                         <option value="VA">Virginia</option>
                         <option value="WA">Washington</option>
                         <option value="WV">West Virginia</option>
                         <option value="WI">Wisconsin</option>
-                        <option value="WY">Wyoming</option>
+                        <option value="WY">Wyoming</option>-->
                 </select>
                 </div>
                     <p><button id="gotostate" class="btn btn-success btn-sm" type="button">GO</button></p></div>
+                    <div id = HUCshow> <p>Click on a watershed to see where the water goes!</p>
+                      <p><button id="expandHUC" class="btn btn-success btn-sm" type="button">Explore other watershed sizes</button></p></div>
                 <div id = selectHUC><p>What size watersheds do you want to see?  The larger the number, the smaller the watershed</p>
-                    <p><button id="showHuc02" class="btn btn-success btn-sm" type="button">02</button><button id="showHuc04" class="btn btn-success btn-sm" type="button">04</button><button id="showHuc06" class="btn btn-success btn-sm" type="button">06</button><button id="showHuc08" class="btn btn-success btn-sm" type="button">08</button><button id="showHuc10" class="btn btn-success btn-sm" type="button">10</button><button id="showHuc12" class="btn btn-success btn-sm" type="button">12</button></p>
-                <button id="showCounties" class="btn btn-success btn-sm" type="button">Show Counties instead</button></div>
+                    <p>
+                      <button id="showHuc02" class="btn btn-success btn-sm" type="button">02</button>
+                      <button id="showHuc04" class="btn btn-success btn-sm" type="button">04</button>
+                      <button id="showHuc06" class="btn btn-success btn-sm" type="button">06</button>
+                      <button id="showHuc08" class="btn btn-success btn-sm" type="button">08</button>
+                      <button id="showHuc10" class="btn btn-success btn-sm" type="button">10</button>
+                      <button id="showHuc12" class="btn btn-info btn-sm" type="button">12</button></p>
                 </div>
-                <div id = refreshbutton><p><button id="refresh" class="btn btn-danger btn-sm" type="button">Reset Map</button></p></div>
+                </div>
+                <div id = refreshbutton>
+                    <p>
+                        <button id="addstates" class="btn btn-warning btn-sm" type="button">Add State</button>
+                        <button id="refresh" class="btn btn-danger btn-sm" type="button">Reset Map</button>
+                    </p>
+                </div>
         
 
         
         <div id="info_fill"></div>
         <div id="confirmation"></div>
             
-            </div>
         </section>
-        
-        
-        <!-- Popup -->
-        <div id="aboutMap" class="about">
-        <div class="about-content">
-            <span class="close">&times;</span>
-            <!--<h1>What does this website do??</h1>
 
-        <p></p>-->
-        </div>
-    </div>
+          <!-- Modal 
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Where Does the Water Go?</h4>
+                </div>
+                <div class="modal-body">
+                  <div id="aboutWater" class="carousel slide" data-ride="carousel">
+    
+                    <div class="carousel-inner" role="listbox">
+                    -->
+
+                      <!--FEATURED EVENT CAROUSEL ITEMS
+
+                        <div class="water-info col">
+                            <div class="item active">
+                                <h2>What is a Watershed?</h2>
+                                <span class="heading-border"></span>
+                                <p>It's not a shed made of water!  </p>
+                                <p>A watershed is an area of land that channels rainfall or snowmelt down to a common outlet.  Let's take a look at Blackwater Conservation Area in Central, Louisiana for an example!</p>
+                            </div>
+                            <div class="item ">
+                                <h2>Where does the water go?</h2>
+                                <span class="heading-border"></span>
+                              <p>When looking down on the park, you can see how the land slopes towards the pond.  Every time it rains all the water runs into the pond - kind of like a big funnel.</p>
+                            </div>
+                            <div class="item ">
+                                <h2>Why does that matter?</h2>
+                                <span class="heading-border"></span>
+                              <p>From here, the overflowing water follows the creeks and runs down into the Comite River. It's not just water, though!  It's everything the water carries with it.  This can include soil, leaves, trash that didn't make it into the garbage bins, and anything else loose on the ground!</p>
+                            </div>
+                            <div class="item ">
+                                <h2>The bigger picture!</h2>
+                                <span class="heading-border"></span>
+                              <p>If we zoom out from our park watershed, we can see that it's part of an even bigger watershed.  In fact, the entire area is comprised of a bunch of small watersheds. </p>
+                            </div>
+                            <div class="item ">
+                                <h2>The bigger picture!</h2>
+                                <span class="heading-border"></span>
+                              <p>By combining the watersheds that all drain into each other, we can visualize an even bigger watershed.  This can help us get a bigger picture of where all the water goes. </p>
+                            </div>
+                            <div class="item ">
+                                <h2>The bigger picture!</h2>
+                                <span class="heading-border"></span>
+                              <p>Our orignial park in Louisina is part of the Mississippi River Watershed.  This watershed is the fourth largest in the world, covering 40% of the contenintal United States or 1.2 million square miles.
+                                </p>
+                            </div>
+                            <div class="item ">
+                                <h2>What you do matters</h2>
+                                <span class="heading-border"></span>
+                              <p>All of that water comes right through here.  Everytime it rains, the water washes everything on your roof, lawn, and yard down your watershed and it will eventually end up in the waterways nearby.  While out of your sight, it's now further downstream and impacting the people and ecosystems there! </p>
+                            </div>
+                            <div class="item ">
+                                <h2>Where does YOUR water go?</h2>
+                                <span class="heading-border"></span>
+                              <p>Take a moment to play with our tool! Select your state and locate your watersheds.  You can toggle between different size watersheds.  These are classified by Hydrologic Unit Code or HUC.  A watershed with a HUC of 02 is the largest scale - with all of the smaller watersheds combined together.  A watershed with a HUC of 12 is our finest scale.</p>
+                            </div>
+                            <div class="item ">
+                                <h2>Where does YOUR water go?</h2>
+                                <span class="heading-border"></span>
+                              <p>If you want to see the areas downstream from you, click "Just Show Me Where the Water Goes!" and select the watershed you live in.</p>
+                            </div>
+                        </div>
+                          <div class="water-image col" id="waterMap"></div>
+                        </div>
+
+                    </div>-->
+                    <!-- CONTROLS 
+    
+                    <a class="left carousel-control" href="#aboutWater" role="button" data-slide="prev"><span class="sr-only">Previous</span></a>
+                    <a class="right carousel-control" href="#aboutWater" role="button" data-slide="next"><span class="sr-only">Next</span></a>
+
+              </div>
+                </div>
+              </div>
+            </div>
         
-    </div>
+    </div>-->
     
     <!--document element adjustment-->
     <script>
@@ -188,8 +272,16 @@
     
     </script>
     
+    <!-- Load React.
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>  
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <script src="lib/js/aboutmodal.js"></script>
+    <script src="lib/js/closebtn.js"></script>
+-->
+    
 
-    <script type="text/javascript" src="main.js"></script> 
+    <script type="text/javascript" src="main.js"></script>
 
 
 </body>

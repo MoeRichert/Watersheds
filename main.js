@@ -83,6 +83,7 @@ function createMap(){
    var displayLayers = {
        "States": statesLayer,
        "Watersheds": selectHucLayer,
+       "Water's Path": extrasLayer,
    };
     
     
@@ -197,8 +198,17 @@ $(document.getElementById('gotostate')).click(function(){
     stateSelection.addTo(statesLayer);
     document.getElementById('selectState').style.display = 'none';
     document.getElementById('refreshbutton').style.display = 'block';
-    document.getElementById('selectHUC').style.display = 'block';
+    document.getElementById('HUCshow').style.display = 'block';
+    document.getElementById('selectHUC').style.display = 'none';
+    fineDetails();
     
+});
+
+$(document.getElementById('expandHUC')).click(function(){
+    document.getElementById('selectState').style.display = 'none';
+    document.getElementById('refreshbutton').style.display = 'block';
+    document.getElementById('HUCshow').style.display = 'none';
+    document.getElementById('selectHUC').style.display = 'block';
 });
      
 
@@ -224,6 +234,14 @@ $(document.getElementById('showHuc10')).click(function(){
 
 function hucFiltering(id, sel, state){
     
+    var resetbuttons = document.getElementsByClassName("btn btn-info btn-sm");
+    
+    //reset all buttons to default color
+    if (!(resetbuttons[0]===undefined)) {
+        document.getElementById(resetbuttons[0].id).className = "btn btn-success btn-sm";
+    }
+    
+    //indicate what huc size is selected by button color
     document.getElementById(id).className = "btn btn-info btn-sm";
     Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
     
@@ -253,7 +271,7 @@ function hucFiltering(id, sel, state){
         //iterate through each feature in the geoJSON
         function onEachFeature(feature, layer) {
             var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
-                "<br> HUC ID:" + (layer.feature.properties.huc10).toLocaleString() + "</br></center>";
+                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
@@ -282,6 +300,13 @@ function hucFiltering(id, sel, state){
 };
 
 $(document.getElementById('showHuc12')).click(function(){
+    fineDetails();
+});
+$(document.getElementById('showFine')).click(function(){
+    fineDetails();
+});
+
+function fineDetails(){
     HucSort={};
     selectHucLayer.clearLayers();
     
@@ -292,22 +317,61 @@ $(document.getElementById('showHuc12')).click(function(){
     
     console.log(call);
     
-    //document.getElementsByClassName("btn btn-info btn-sm").className = "btn btn-success btn-sm";
+    var resetbuttons = document.getElementsByClassName("btn btn-info btn-sm");
     
+    //reset all buttons to default color
+    if (!(resetbuttons[0]===undefined)) {
+        document.getElementById(resetbuttons[0].id).className = "btn btn-success btn-sm";
+    };
     
+    //indicate what huc size is selected by button color  
     document.getElementById(id).className = "btn btn-info btn-sm";
+    
     Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
-    
-    
-    $.when(Huc).then(function (response1) {
-    
-     // create layer and add to the layer group
-        HucSort = L.geoJson(response1, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(selectHucLayer);
 
-    });
+
+        $.when(Huc).then(function (response1) {
+
+         // create layer and add to the layer group
+            HucSort = L.geoJson(response1, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(selectHucLayer);
+
+            HucSort.on('click', function(e) {
+
+                var selection = [],
+                    selectedNode = e.sourceTarget.feature;
+                selection.push(selectedNode);
+                console.log(selectedNode.properties.tohuc);
+
+                function getHucIndex(target, toHuc){
+                    for(let i = 0; i < target.getLayers().length; i++){
+                        if (toHuc == target.getLayers()[i].feature.properties.huc){
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+
+                //Selection = getHucIndex(HucSort, selectedNode.properties.tohuc);
+                //console.log(HucSort[2].feature.properties.huc);
+
+                function downstream(target, selectedNode){
+                    nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
+                    while(nextHuc != -1) {
+                        selection.push(target.getLayers()[nextHuc].feature);
+                        nextHuc = getHucIndex(target, target.getLayers()[nextHuc].feature.properties.tohuc);
+                    }
+                }
+
+                downstream(HucSort, selectedNode);
+                Selection = L.geoJson(selection, {
+                    style: styleW,
+                    onEachFeature: onEachFeature
+                }).addTo(extrasLayer); 
+
+            });
 
         //default layer style
         function style(feature) {
@@ -326,7 +390,7 @@ $(document.getElementById('showHuc12')).click(function(){
         //iterate through each feature in the geoJSON
         function onEachFeature(feature, layer) {
             var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
-                "<br> HUC ID:" + (layer.feature.properties.huc12).toLocaleString() + "</br></center>";
+                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
@@ -347,22 +411,108 @@ $(document.getElementById('showHuc12')).click(function(){
             HucSort.setStyle(style);
             this.closePopup();
         };
-        
-        function downstream(feat){
-            
-            Selection = map.eachLayer(function(layer){
-                if (feature.properties.huc12 !== feat) return true});
+    
+    function styleW(feature) {
+        return {
+            fillColor: 'blue',
+            weight: 2,
+            opacity: 1,
+            color: 'navy',  //Outline color
+            fillOpacity: 0.2
         };
+    };    
 });
+    selectHucLayer.addTo(map);
+    extrasLayer.addTo(map);
+}
 
-$(document.getElementById('showHuc04')).click(function(){});
-$(document.getElementById('showHuc06')).click(function(){});
-$(document.getElementById('showHuc08')).click(function(){});
-$(document.getElementById('showHuc10')).click(function(){});
+
+$(document.getElementById('showHuc02')).click(function(){
+    HucSort={};
+    selectHucLayer.clearLayers();
+    
+    var id = "showHuc02",
+        sel = HucButtonToggles[id],
+        state = document.getElementById('stateSel').value,
+        call = 'resources/spatialdata/'+state+'/'+sel+'.geojson';
+    
+    console.log(call);
+    
+    //document.getElementsByClassName("btn btn-info btn-sm").className = "btn btn-success btn-sm";
+    
+    hucFiltering(id,sel,state);
+});
+$(document.getElementById('showHuc04')).click(function(){
+    HucSort={};
+    selectHucLayer.clearLayers();
+    
+    var id = "showHuc04",
+        sel = HucButtonToggles[id],
+        state = document.getElementById('stateSel').value,
+        call = 'resources/spatialdata/'+state+'/'+sel+'.geojson';
+    
+    console.log(call);
+    
+    //document.getElementsByClassName("btn btn-info btn-sm").className = "btn btn-success btn-sm";
+    
+    hucFiltering(id,sel,state);
+});
+$(document.getElementById('showHuc06')).click(function(){
+    HucSort={};
+    selectHucLayer.clearLayers();
+    
+    var id = "showHuc06",
+        sel = HucButtonToggles[id],
+        state = document.getElementById('stateSel').value,
+        call = 'resources/spatialdata/'+state+'/'+sel+'.geojson';
+    
+    console.log(call);
+    
+    //document.getElementsByClassName("btn btn-info btn-sm").className = "btn btn-success btn-sm";
+    
+    hucFiltering(id,sel,state);
+});
+$(document.getElementById('showHuc08')).click(function(){
+    HucSort={};
+    selectHucLayer.clearLayers();
+    
+    var id = "showHuc08",
+        sel = HucButtonToggles[id],
+        state = document.getElementById('stateSel').value,
+        call = 'resources/spatialdata/'+state+'/'+sel+'.geojson';
+    
+    console.log(call);
+    
+    //document.getElementsByClassName("btn btn-info btn-sm").className = "btn btn-success btn-sm";
+    
+    hucFiltering(id,sel,state);
+});
 $(document.getElementById('showCounties')).click(function(){});
 
 
-$(document.getElementById('#refresh')).click(init);
+$(document.getElementById('refresh')).click(function(){
+    document.getElementById('selectState').style.display = 'block';
+    document.getElementById('refreshbutton').style.display = 'none';
+    document.getElementById('HUCshow').style.display = 'none';
+    document.getElementById('selectHUC').style.display = 'none';
+    
+    extrasLayer.clearLayers();
+    selectHucLayer.clearLayers();
+    map.removeLayer(selectHucLayer);
+    getData(map);
+    
+});
+$(document.getElementById('addstates')).click(function(){
+    document.getElementById('selectState').style.display = 'block';
+    document.getElementById('refreshbutton').style.display = 'none';
+    document.getElementById('HUCshow').style.display = 'none';
+    document.getElementById('selectHUC').style.display = 'none';
+    
+    selectHucLayer.clearLayers();
+    map.removeLayer(selectHucLayer);
+    getData(map);
+    
+});
 
 //when the page loads, AJAX & call createMap to render map tiles and data.
 $(document).ready(init);
