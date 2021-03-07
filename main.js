@@ -4,17 +4,13 @@ var map;
 
 
 // Basemap options located on top right of map
-var grayscale   = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+var grayscale   = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
 	maxZoom: 20,
-	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 }),
-    dark  = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+    terrain  = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg', {
 	maxZoom: 20,
-	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-}),
-    outdoors = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	maxZoom: 17,
-	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 });
 
 //Legend div in bottom right of map
@@ -75,8 +71,7 @@ function createMap(){
     
     var baseLayers = {
         "Grayscale": grayscale,
-        "Topographic": outdoors,
-        "Darkscale": dark,
+        "Terrain": terrain,
     };
     
    var displayLayers = {
@@ -326,7 +321,7 @@ function fineDetails(){
     //indicate what huc size is selected by button color  
     document.getElementById(id).className = "btn btn-info btn-sm";
     
-    if (state = "TX" ) {
+    /*if (state = "TX" ) {
         Huc0512 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/05.geojson');
         Huc1212 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/12.geojson');
         Huc1312 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/13.geojson');
@@ -387,7 +382,7 @@ function fineDetails(){
             
         });
         
-    } else {
+    } else {*/
         
         Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
 
@@ -484,7 +479,6 @@ function fineDetails(){
         };
     };    
 });
-    }
     selectHucLayer.addTo(map);
     extrasLayer.addTo(map);
 }
