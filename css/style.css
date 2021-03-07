@@ -211,3 +211,7 @@
     height: 50px;
     width: 49px;
 }
+
+body.waiting * {
+    cursor: progress;
+}
