@@ -95,6 +95,9 @@
 #selectHUC{
     display:none;
 }
+#HUCshow{
+    display:none;
+}
 
 .my-popup {
 	pointer-events: none;
@@ -181,4 +184,30 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+#aboutWater .carousel-control.left {
+    left: 0px;
+    right: auto;
+    top: 50%;
+    margin-top: -25px;
+    font-size: 58px;
+    text-decoration: none;
+    height: 50px;
+    width: 49px;
+    background: url(../../images/smArrowLeft.png);
+    background-repeat: no-repeat;
+}
+
+#featuredEvent .carousel-control.right {
+    right: 0px;
+    left: auto;
+    top: 50%;
+    margin-top: -25px;
+    font-size: 58px;
+    text-decoration: none;
+    background: url(../../images/smArrowRight.png);
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 49px;
 }
