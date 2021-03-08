@@ -40,10 +40,11 @@
     width: 280px;
     margin: 20px auto;
     padding: 0 15px;
-    background: rgba(256, 256, 256, .8);
+    background: rgba(256, 256, 256, 1);
     border: 1px solid grey;
     border-radius: 3px;
     z-index: 800;
+    text-align: center;
     }
 
         p {
@@ -71,6 +72,11 @@
     background: #FEFEFE;
     height: 50px;
     width: 100%;
+}
+#edbit{
+    background: #C4DBF1;
+    height: 100%;
+    font-weight: bold;
 }
 #minimize{
     color: #aaaaaa;

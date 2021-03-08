@@ -107,7 +107,10 @@ function getData(map){
             style: style,
             onEachFeature: onEachFeature
         }).addTo(statesLayer);
-        States.on('click', function(e) { document.getElementById('stateSel').value = (e.layer.feature.properties.SID); });
+        States.on('click', function(e) { 
+            document.getElementById('stateSel').value = (e.layer.feature.properties.SID); 
+            stateView();
+        });
 
         //default layer style
         function style(feature) {
@@ -181,6 +184,12 @@ function selectData(e){
 
 
 $(document.getElementById('gotostate')).click(function(){
+    
+    stateView();
+    
+});
+
+function stateView(){
     var state = document.getElementById('stateSel').value;
     console.log(state);
     var match = States.eachLayer(function(layer) {
@@ -197,8 +206,7 @@ $(document.getElementById('gotostate')).click(function(){
     document.getElementById('HUCshow').style.display = 'block';
     document.getElementById('selectHUC').style.display = 'none';
     fineDetails();
-    
-});
+}
 
 $(document.getElementById('expandHUC')).click(function(){
     document.getElementById('selectState').style.display = 'none';
