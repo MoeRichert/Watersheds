@@ -61,8 +61,25 @@
                 <b>Where Does the Water Go?</b>
             </div>
             <div id="box">
+                <div id = HUCshow> <p>Click on a watershed to see where the water goes!</p>
+                      <p><button id="expandHUC" class="btn btn-success btn-sm" type="button">Explore other watershed sizes</button></p></div>
+                <div id = selectHUC><p>What size watersheds do you want to see?  The larger the number, the smaller the watershed</p>
+                    <p>
+                      <button id="showHuc02" class="btn btn-success btn-sm" type="button">02</button>
+                      <button id="showHuc04" class="btn btn-success btn-sm" type="button">04</button>
+                      <button id="showHuc06" class="btn btn-success btn-sm" type="button">06</button>
+                      <button id="showHuc08" class="btn btn-success btn-sm" type="button">08</button>
+                      <button id="showHuc10" class="btn btn-success btn-sm" type="button">10</button>
+                      <button id="showHuc12" class="btn btn-info btn-sm" type="button">12</button></p>
+                </div>
+                <div id = refreshbutton>
+                    <p>
+                        <button id="addstates" class="btn btn-warning btn-sm" type="button">Add State</button>
+                        <button id="refresh" class="btn btn-danger btn-sm" type="button">Reset Map</button>
+                    </p>
+                </div>
 
-        <p>A watershed is an area of land that channels rainfall or snowmelt down to a common outlet.</p>
+                <div id = edbit><p>A watershed is an area of land that channels rainfall or snowmelt down to a common outlet.</p></div>
                 <div id = selectState><p>To investigate your watershed, please click your state or choose from the dropdown and hit GO:  </p>
                 <div class="menuDropdown">
                     <select name="statesel" id=stateSel>
@@ -119,26 +136,10 @@
                         <option value="WI">Wisconsin</option>
                         <option value="WY">Wyoming</option>-->
                 </select>
-                </div>
-                    <p><button id="gotostate" class="btn btn-success btn-sm" type="button">GO</button></p></div>
-                    <div id = HUCshow> <p>Click on a watershed to see where the water goes!</p>
-                      <p><button id="expandHUC" class="btn btn-success btn-sm" type="button">Explore other watershed sizes</button></p></div>
-                <div id = selectHUC><p>What size watersheds do you want to see?  The larger the number, the smaller the watershed</p>
-                    <p>
-                      <button id="showHuc02" class="btn btn-success btn-sm" type="button">02</button>
-                      <button id="showHuc04" class="btn btn-success btn-sm" type="button">04</button>
-                      <button id="showHuc06" class="btn btn-success btn-sm" type="button">06</button>
-                      <button id="showHuc08" class="btn btn-success btn-sm" type="button">08</button>
-                      <button id="showHuc10" class="btn btn-success btn-sm" type="button">10</button>
-                      <button id="showHuc12" class="btn btn-info btn-sm" type="button">12</button></p>
-                </div>
-                </div>
-                <div id = refreshbutton>
-                    <p>
-                        <button id="addstates" class="btn btn-warning btn-sm" type="button">Add State</button>
-                        <button id="refresh" class="btn btn-danger btn-sm" type="button">Reset Map</button>
-                    </p>
-                </div>
+                <button id="gotostate" class="btn btn-success btn-sm" type="button">GO</button><p></p></div></div>
+                    
+                
+            </div>
         
 
         
