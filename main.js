@@ -157,7 +157,7 @@ function getData(map){
         //iterate through each feature in the geoJSON
         function onFeature(feature, layer) {
             var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
-                "<br> HUC ID:" + (layer.feature.properties.huc2).toLocaleString() + "</br></center>";
+                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
