@@ -31,22 +31,18 @@
 
 <body>
 
-<nav class="navbar navbar-inverse">
-            <div class="container-fluid">
+
+    <nav class="navbar navbar-dark bg-dark">
                 <div class="navbar-header">
-                    <img src="img/mrplight.svg" alt="Moe Richert Cartography" id="logoimg" class="navbar-brand">
-                </div>
-                <ul class="nav nav-tabs navbar-right">
-                    <!-- Button trigger modal
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
-                      Location 1
-                    </button>
-                    <a href="moerichert.github.io" data-toggle="tab"><i class="fa fa-home" style="font-size:36px"></i></a>
-                    <a id="abtbtn" data-toggle="tab"><i class="fa fa-question-circle-o" style="font-size:36px; cursor: pointer;"></i></a> -->
-                </ul>
-            </div>
-                
-        </nav>  
+                    <img src="img/MRPlgtnt.svg" alt="Moe Richert Cartography" id="logoimg" class="navbar-brand">
+        </div>
+                    <ul class="nav nav-tabs navbar-right">
+                        <!-- Button trigger modal-->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+                          About the Map
+                        </button>
+                    </ul>
+    </nav>
     
     <div class="content">
         
@@ -147,9 +143,136 @@
         <div id="confirmation"></div>
             
         </section>
+        
+                  <!--<Modal class="my-modal"
+              size="lg"
+              show={props.modalOpen} 
+              onHide={props.handleModalOpen}>
+                    <Modal.Header
+                       
+                        style={{
+                            background-color: props.theme.midgrey,
+                        }}
+                        >
+                  
+                 <Modal.Title class="titlemodal" 
+                     style={{color: props.theme.text,
+                              margin: "0 auto",
+                            }}>Where Does the Water Go?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body >
+                  <Carousel fade>
+                    <Carousel.Item>
+                          <Container>
+                              <Row>
+                                  <Col md="12" lg="5" style={{color:props.theme.body}}>
+                                      <h3>This map is still under construction</h3>
+                                      <p></p>
+                                      <div class="about-content">
+                                      <p>Thanks for checking out my map!</p>
+                                      <p></p>
+                                      <p>This map is still in progress, but feel free to explore</p>
+                                      <p></p>
+                                      <p></p>
+                                          
+                                      </div>
+                                  </Col>
+                                  <Col md="12" lg="7">
+                                    <Water12 className="slide" 
+                                      alt="Moe Richert"
+                                    />
+                                  </Col>
+                              </Row>
+                            </Container>
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <Container>
+                              <Row>
+                                  <Col md="12" lg="5" style={{color:props.theme.body}}>
+                                      <h3>Why does that matter?</h3>
+                                      <p></p>
+                                      <div class="about-content">
+                                      <p>It's not just water that ends up in the waterway!</p>
+                                      <p></p>
+                                      <p>It's everything the water carries with it.</p>
+                                      <p></p>
+                                      <p>This can include soil, leaves, trash that didn't make it into the bin, and anything else loose on the ground.</p>
+                                      <Trash />
+                                          
+                                      </div>
+                                  </Col>
+                                  <Col md="12" lg="7">
+                                    <Water1 class="slide" 
+                                      alt="Moe Richert"
+                                    />
+                                  </Col>
+                              </Row>
+                            </Container>
+                      </Carousel.Item>
+                    </Carousel>
+              </Modal.Body>
+              <Modal.Footer 
+                  style={{
+                    background-olor: props.theme.midgrey,
+                  }}>
+              </Modal.Footer>
+          </Modal>-->
+        
 
-          <!-- Modal 
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <!-- Modal -->
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Where Does the Water Go?</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">                         
+                                <div class="container">
+                                  <div class="row">
+                                      <div class="col-12 col-lg 5">
+                                          <h3>This map is still under construction</h3>
+                                          <p></p>
+                                          <div class="about-content">
+                                          <p>Thanks for checking out my map!</p>
+                                          <p></p>
+                                          <p>This map is still in progress, but feel free to explore</p>
+                                          <p></p>
+                                          <p></p>
+
+                                          </div>
+                                      </div>
+                                      <div class="col-12 col-lg 5">
+                                        <img src="img/blackwater1.svg" />
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                </div>
+                  <div class="modal-footer" style="background-color:darkslategray"></div>
+            </div>
+        </div>
+        
+        
+        <!--  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -246,16 +369,9 @@
     
     </script>
     
-    <!-- Load React.
-    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>  
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
-    
-    <script src="lib/js/aboutmodal.js"></script>
-    <script src="lib/js/closebtn.js"></script>
--->
-    
 
     <script type="text/javascript" src="main.js"></script>
+
 
 
 </body>

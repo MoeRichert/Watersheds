@@ -4,7 +4,7 @@ var map;
 
 
 // Basemap options located on top right of map
-var grayscale   = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+var grayscale   = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
 	maxZoom: 20,
 	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 }),
@@ -42,7 +42,6 @@ var Huc02,
 
 //Layer options located in key
 var hucLayer = L.layerGroup(),
-    txLayers = L.layerGroup(),
     selectHucLayer = L.layerGroup(),
     statesLayer = L.layerGroup(),
     extrasLayer = L.layerGroup();
@@ -138,8 +137,8 @@ function getData(map){
         function highlightFeature(e) {
 
             var layer = e.target;
-            layer.setStyle({fillOpacity: 1.0,
-                           color: 'red'});
+            layer.setStyle({fillOpacity: .5,
+                           color: 'grey'});
                 this.openPopup();
         };
 
@@ -288,8 +287,8 @@ function hucFiltering(id, sel, state){
         function highlightFeature(e) {
 
             var layer = e.target;
-            layer.setStyle({fillOpacity: 1.0,
-                           color: 'red'});
+            layer.setStyle({fillOpacity: .5,
+                           color: 'grey'});
                 this.openPopup();
         };
 
@@ -299,6 +298,8 @@ function hucFiltering(id, sel, state){
         };
         selectHucLayer.addTo(map);
         $('body').removeClass('waiting');
+        
+        
 });
     
     
@@ -333,69 +334,6 @@ function fineDetails(){
     
     //indicate what huc size is selected by button color  
     document.getElementById(id).className = "btn btn-info btn-sm";
-    
-    /*if (state = "TX" ) {
-        Huc0512 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/05.geojson');
-        Huc1212 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/12.geojson');
-        Huc1312 = $.getJSON('resources/spatialdata/'+state+'/'+sel+'/13.geojson');
-        
-        $.when(Huc0512, Huc1212, Huc1312).then(function (response1, response2, response3) {
-            // create layer and add to the layer group
-            HucSort1 = L.geoJson(response1, {
-                
-            }).addTo(txLayers);
-            
-            HucSort2 = L.geoJson(response2, {
-                
-            }).addTo(txLayers);
-            
-            HucSort3 = L.geoJson(response3, {
-                
-            }).addTo(txLayers);
-            
-            HucSort1.on('click', function(e) {
-                downstreamtx(e)
-
-            });
-            
-        function downstreamtx(e){
-            var selection = [],
-                    selectedNode = e.sourceTarget.feature;
-                selection.push(selectedNode);
-                console.log(selectedNode.properties.tohuc);
-
-                function getHucIndex(target, toHuc){
-                    for(let i = 0; i < target.getLayers().length; i++){
-                        if (toHuc == target.getLayers()[i].feature.properties.huc){
-                            return i;
-                        }
-                    }
-                    return -1;
-                }
-
-                //Selection = getHucIndex(HucSort, selectedNode.properties.tohuc);
-                //console.log(HucSort[2].feature.properties.huc);
-
-                function downstream(target, selectedNode){
-                    nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
-                    while(nextHuc != -1) {
-                        selection.push(target.getLayers()[nextHuc].feature);
-                        nextHuc = getHucIndex(target, target.getLayers()[nextHuc].feature.properties.tohuc);
-                    }
-                }
-
-                downstream(HucSort, selectedNode);
-                Selection = L.geoJson(selection, {
-                    style: styleW,
-                    onEachFeature: onEachFeature
-                }).addTo(extrasLayer); 
-        }
-
-            
-            
-        });
-        
-    } else {*/
         
         Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
 
@@ -441,7 +379,7 @@ function fineDetails(){
                 downstream(HucSort, selectedNode);
                 Selection = L.geoJson(selection, {
                     style: styleW,
-                    onEachFeature: onEachFeature
+                    onEachFeature: onEachWFeature
                 }).addTo(extrasLayer); 
                 
                 $('body').removeClass('waiting');
@@ -471,14 +409,24 @@ function fineDetails(){
                 mouseover: highlightFeature,
                 mouseout: resetHighlight
             });
-            };
+        };
+        //iterate through each feature in the geoJSON
+        function onEachWFeature(feature, layer) {
+            var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
+                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
+            layer.bindPopup(popup);
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHlight
+            });
+        };
 
         //set the highlight on the map
         function highlightFeature(e) {
 
             var layer = e.target;
-            layer.setStyle({fillOpacity: 1.0,
-                           color: 'red'});
+            layer.setStyle({fillOpacity: .7,
+                           color: 'black'});
                 this.openPopup();
         };
 
@@ -487,16 +435,20 @@ function fineDetails(){
             this.closePopup();
         };
     
-    function styleW(feature) {
-        return {
-            fillColor: 'blue',
-            weight: 2,
-            opacity: 1,
-            color: 'navy',  //Outline color
-            fillOpacity: 0.2
+        function styleW(feature) {
+            return {
+                fillColor: 'blue',
+                weight: 2,
+                opacity: 1,
+                color: 'navy',  //Outline color
+                fillOpacity: 0.2
+            };
         };
-    };    
-});
+        function resetHlight(e) {
+            Selection.setStyle(styleW);
+            this.closePopup();
+        };
+        });
     selectHucLayer.addTo(map);
     extrasLayer.addTo(map);
 }
@@ -606,5 +558,3 @@ function init(){
     	globalMap.flyTo([43.78, -88.78], 5.5); //[lat, lng], zoom
     });
 };
-
-
