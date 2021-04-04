@@ -357,8 +357,8 @@ function fineDetails(){
                 console.log(selectedNode.properties.tohuc);
 
                 function getHucIndex(target, toHuc){
-                    for(let i = 0; i < target.getLayers().length; i++){
-                        if (toHuc == target.getLayers()[i].feature.properties.huc){
+                    for(let i = 0; i < target.length; i++){
+                        if (toHuc == target[i].feature.properties.huc){
                             return i;
                         }
                     }
@@ -368,11 +368,12 @@ function fineDetails(){
                 //Selection = getHucIndex(HucSort, selectedNode.properties.tohuc);
                 //console.log(HucSort[2].feature.properties.huc);
 
-                function downstream(target, selectedNode){
+                function downstream(arr, selectedNode){
+			target = arr.getLayers()
                     nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
                     while(nextHuc != -1) {
-                        selection.push(target.getLayers()[nextHuc].feature);
-                        nextHuc = getHucIndex(target, target.getLayers()[nextHuc].feature.properties.tohuc);
+                        selection.push(target[nextHuc].feature);
+                        nextHuc = getHucIndex(target, target[nextHuc].feature.properties.tohuc);
                     }
                 }
 
