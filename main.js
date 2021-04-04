@@ -401,7 +401,6 @@ function fineDetails(){
             selectedNode = e.sourceTarget.feature;
                 
         console.log(selectedNode.properties.tohuc);
-       
         
 
         function getHucIndex(arr, toHuc){
