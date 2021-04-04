@@ -336,9 +336,10 @@ function fineDetails(){
     document.getElementById(id).className = "btn btn-info btn-sm";
         
         Huc = $.getJSON('resources/spatialdata/'+state+'/'+sel+'.geojson');
-
+        
 
         $.when(Huc).then(function (response1) {
+
 
          // create layer and add to the layer group
             HucSort = L.geoJson(response1, {
@@ -348,43 +349,6 @@ function fineDetails(){
             
             $('body').removeClass('waiting');
 
-            HucSort.on('click', function(e) {
-                 $('body').addClass('waiting');
-
-                var selection = [],
-                    selectedNode = e.sourceTarget.feature;
-                selection.push(selectedNode);
-                console.log(selectedNode.properties.tohuc);
-
-                function getHucIndex(target, toHuc){
-                    for(let i = 0; i < target.getLayers().length; i++){
-                        if (toHuc == target.getLayers()[i].feature.properties.huc){
-                            return i;
-                        }
-                    }
-                    return -1;
-                }
-
-                //Selection = getHucIndex(HucSort, selectedNode.properties.tohuc);
-                //console.log(HucSort[2].feature.properties.huc);
-
-                function downstream(target, selectedNode){
-                    nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
-                    while(nextHuc != -1) {
-                        selection.push(target.getLayers()[nextHuc].feature);
-                        nextHuc = getHucIndex(target, target.getLayers()[nextHuc].feature.properties.tohuc);
-                    }
-                }
-
-                downstream(HucSort, selectedNode);
-                Selection = L.geoJson(selection, {
-                    style: styleW,
-                    onEachFeature: onEachWFeature
-                }).addTo(extrasLayer); 
-                
-                $('body').removeClass('waiting');
-
-            });
 
         //default layer style
         function style(feature) {
@@ -407,17 +371,8 @@ function fineDetails(){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHighlight
-            });
-        };
-        //iterate through each feature in the geoJSON
-        function onEachWFeature(feature, layer) {
-            var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
-                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
-            layer.bindPopup(popup);
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHlight
+                mouseout: resetHighlight,
+                click: findDownstream
             });
         };
 
@@ -434,7 +389,103 @@ function fineDetails(){
             HucSort.setStyle(style);
             this.closePopup();
         };
+
+        });
     
+    selectHucLayer.addTo(map);
+        
+    function findDownstream(e) {
+        $('body').addClass('waiting');
+        
+        var selection = [],
+            selectedNode = e.sourceTarget.feature;
+                
+        console.log(selectedNode.properties.tohuc);
+        
+        
+        // TEST CODE Iterative function to implement Binary Search
+           /* function getHucIndex(target, x) {
+            arr=target.getLayers();
+
+                let start=0, end=arr.length-1;
+
+                // Iterate while start not meets end
+                while (start<=end){
+
+                    // Find the mid index
+                    let mid=Math.floor((start + end)/2);
+
+                    // If element is present at mid, return True
+                    if (arr[mid].feature.properties.huc===x) return mid;
+
+                    // Else look in left or right half accordingly
+                    else if (arr[mid].huc < x) 
+                         start = mid + 1;
+                    else
+                         end = mid - 1;
+                }
+
+                return -1;
+            }*/
+        
+        //END TEST CODE
+        
+
+        function getHucIndex(arr, toHuc){
+            for(let i = 0; i < arr.length; i++){
+                if (toHuc == arr[i].feature.properties.huc){
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+
+        function downstream(arr, selectedNode){
+            selection.push(selectedNode);
+            target=arr.getLayers()
+            /*L.geoJson(selectedNode).addTo(extrasLayer);*/
+            nextHuc = getHucIndex(target, selectedNode.properties.tohuc);
+            while(nextHuc != -1) {
+                selection.push(target[nextHuc].feature);
+                /*L.geoJson(target.getLayers()[nextHuc].feature).addTo(extrasLayer);*/
+                nextHuc = getHucIndex(target, target[nextHuc].feature.properties.tohuc);
+            }
+        }
+
+        downstream(HucSort, selectedNode);
+        
+        
+        Selection = L.geoJson(selection, {
+                style: styleW,
+                onEachFeature: onEachWFeature
+        }).addTo(extrasLayer);
+                
+                $('body').removeClass('waiting');
+        
+        
+        
+        //iterate through each feature in the geoJSON
+        function onEachWFeature(feature, layer) {
+            var popup = "<center><b>" + (layer.feature.properties.name).toLocaleString() + "</b>" +
+                "<br> HUC ID:" + (layer.feature.properties.huc).toLocaleString() + "</br></center>";
+            layer.bindPopup(popup);
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHlight
+            });
+        };
+        
+                //set the highlight on the map
+        function highlightFeature(e) {
+
+            var layer = e.target;
+            layer.setStyle({fillOpacity: .7,
+                           color: 'black'});
+                this.openPopup();
+        };
+        
+            
         function styleW(feature) {
             return {
                 fillColor: 'blue',
@@ -448,8 +499,9 @@ function fineDetails(){
             Selection.setStyle(styleW);
             this.closePopup();
         };
-        });
-    selectHucLayer.addTo(map);
+
+    };
+    
     extrasLayer.addTo(map);
 }
 
