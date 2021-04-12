@@ -8,7 +8,7 @@
 	}
 #h3 {
     font-family: "Noto Sans", sans-serif;
-    font-size: 1em;
+    
     font-weight: normal;
     text-align: center;
     margin: 0;
@@ -33,8 +33,32 @@
     left:0px;
 }
 
-#side-panel {
+#full-panel {
     position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    z-index: 800;
+    }
+
+#static-tooltip{
+    position: relative;
+    top: 0;
+    left: 15px;
+    width: 60%;
+    margin: auto;
+    padding: 5px 5px;
+    background: #aaaaaa;
+    color: black;
+    border: 3px solid black;
+    border-radius: 3px;
+    text-align: center;
+    
+}
+
+
+#side-panel {
+    position: relative;
     bottom: 0;
     left: 15px;
     width: 280px;
@@ -44,7 +68,6 @@
     color: white;
     border: 1px solid grey;
     border-radius: 3px;
-    z-index: 800;
     text-align: center;
     }
 
@@ -106,6 +129,7 @@
     display:none;
 }
 
+
 .my-popup {
 	pointer-events: none;
 }
@@ -135,42 +159,9 @@
 	border: 2px solid rgba(1, 1, 1, 0.2);
 	font-weight: bold;
 }
-.legend {
-    text-align: left;
-    line-height: 18px;
-    color: #555;
-}
-.legend i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}
-.legend .colorcircle {
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    margin-top: 0px;
-}
-
-/* Popup */
-.about {
-  display: none; 
-  position: fixed; 
-  z-index: 1001; 
-  padding-top: 10%; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%;
-  overflow: auto; 
-  background-color: rgb(0,0,0); 
-  background-color: rgba(0,0,0,0.4); 
-}
 
 .modal-header{
-    background-color: darkslategrey
+    background-color: darkslategrey;
 }
 
 .modal-title{
@@ -181,9 +172,10 @@
 
 .about-content {
   background-color: #fefefe;
+  font-size: 25px;
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
+  padding: 0px;
+  border: 0px solid #888;
   width: 80%;
 }
 
@@ -202,43 +194,51 @@
   cursor: pointer;
 }
 
-#aboutWater .carousel-control.left {
-    left: 0px;
-    right: auto;
-    top: 50%;
-    margin-top: -25px;
-    font-size: 58px;
-    text-decoration: none;
-    height: 50px;
-    width: 49px;
-    background: url(../../images/smArrowLeft.png);
-    background-repeat: no-repeat;
-}
 
-#aboutWater .carousel-control.right {
-    right: 0px;
-    left: auto;
-    top: 50%;
-    margin-top: -25px;
-    font-size: 58px;
-    text-decoration: none;
-    background: url(../../images/smArrowRight.png);
-    background-repeat: no-repeat;
-    height: 50px;
-    width: 49px;
-}
 .modal-body{
     text-align: center;
 }
 
 
-
 .imgm{
-    max-width:100%;
-    max-height:100%;
+    position: relative;
+    width: 100%;
+    height: ;
 }
+
+
+.imgf {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.imgf img {
+  position:absolute;
+  width: auto;
+  height: 100%;
+  left:0;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+.imgf img.top:hover {
+  opacity:0;
+}
+
 
 
 body.waiting * {
     cursor: progress;
+}
+
+@media (max-width: 991px){
+    .about-content {
+        padding: 5px;
+        width: 90%;
+        font-size: 20px;
+    }
 }
