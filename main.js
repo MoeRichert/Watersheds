@@ -129,7 +129,7 @@ function getData(map){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHighlight
+                mouseout: resetHighlight,                 mousemove: movepop
             });
             };
 
@@ -139,12 +139,12 @@ function getData(map){
             var layer = e.target;
             layer.setStyle({fillOpacity: .5,
                            color: 'grey'});
-                this.openPopup();
+                    var popup = e.target.getPopup();     popup.setLatLng(e.latlng).openOn(map);
         };
 
         function resetHighlight(e) {
             States.setStyle(style);
-            this.closePopup();
+            e.target.closePopup();
         };
         
         // create layer and add to layer group
@@ -160,13 +160,14 @@ function getData(map){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHlight
+                mouseout: resetHlight,
+                mousemove: movepop
             });
         };
         
         function resetHlight(e) {
             Huc02.setStyle(style);
-            this.closePopup();
+            e.target.closePopup();
         };
         
         
@@ -176,6 +177,12 @@ function getData(map){
         
 });
 };
+
+function movepop(e) {
+    e.target.closePopup();
+    var popup = e.target.getPopup();
+    popup.setLatLng(e.latlng).openOn(map);
+}
     
 function selectData(e){
     
@@ -279,7 +286,7 @@ function hucFiltering(id, sel, state){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHighlight
+                mouseout: resetHighlight,                 mousemove: movepop
             });
             };
 
@@ -289,12 +296,14 @@ function hucFiltering(id, sel, state){
             var layer = e.target;
             layer.setStyle({fillOpacity: .5,
                            color: 'grey'});
-                this.openPopup();
+            
+                var popup = e.target.getPopup();     popup.setLatLng(e.latlng).openOn(map);
+            
         };
 
         function resetHighlight(e) {
             HucSort.setStyle(style);
-            this.closePopup();
+            e.target.closePopup();
         };
         selectHucLayer.addTo(map);
         $('body').removeClass('waiting');
@@ -371,7 +380,7 @@ function fineDetails(){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHighlight,
+                mouseout: resetHighlight,                 mousemove: movepop,
                 click: findDownstream
             });
         };
@@ -382,12 +391,12 @@ function fineDetails(){
             var layer = e.target;
             layer.setStyle({fillOpacity: .7,
                            color: 'black'});
-                this.openPopup();
+                    var popup = e.target.getPopup();     popup.setLatLng(e.latlng).openOn(map);
         };
 
         function resetHighlight(e) {
             HucSort.setStyle(style);
-            this.closePopup();
+            e.target.closePopup();
         };
 
         });
@@ -444,7 +453,7 @@ function fineDetails(){
             layer.bindPopup(popup);
             layer.on({
                 mouseover: highlightFeature,
-                mouseout: resetHlight
+                mouseout: resetHlight,                 mousemove: movepop
             });
         };
         
@@ -454,7 +463,7 @@ function fineDetails(){
             var layer = e.target;
             layer.setStyle({fillOpacity: .7,
                            color: 'black'});
-                this.openPopup();
+                    var popup = e.target.getPopup();     popup.setLatLng(e.latlng).openOn(map);
         };
         
             
@@ -469,7 +478,7 @@ function fineDetails(){
         };
         function resetHlight(e) {
             Selection.setStyle(styleW);
-            this.closePopup();
+            e.target.closePopup();
         };
 
     };
@@ -557,6 +566,13 @@ $(document.getElementById('refresh')).click(function(){
     getData(map);
     
 });
+
+$(document.getElementById('resetwater')).click(function(){
+    
+    extrasLayer.clearLayers();
+    
+});
+
 $(document.getElementById('addstates')).click(function(){
     document.getElementById('selectState').style.display = 'block';
     document.getElementById('refreshbutton').style.display = 'none';
