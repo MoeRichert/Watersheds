@@ -169,6 +169,10 @@
     color:white;
 }
 
+.carousel-control-next {
+    filter: invert(100%);
+}
+
 
 .about-content {
   background-color: #fefefe;
